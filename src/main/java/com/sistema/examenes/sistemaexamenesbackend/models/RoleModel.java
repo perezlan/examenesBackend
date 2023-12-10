@@ -11,27 +11,34 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 public class RoleModel {
     @Id
     private Long id;
     private String name;
-    
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "role")//el role cae sobre la varible "role" de Model UsuarioRol
-    private Set<UsarioRolModel> userRoles = new HashSet<>();
-    
+
+    public RoleModel() {
+
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role") // el role cae sobre la varible
+                                                                                     // "role" de Model UsuarioRol
+    private Set<UsuarioRolModel> userRoles = new HashSet<>();
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-
 
 }

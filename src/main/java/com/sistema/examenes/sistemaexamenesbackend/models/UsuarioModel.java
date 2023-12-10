@@ -29,8 +29,13 @@ public class UsuarioModel {
     private boolean enable=true;
     private String profile;
     
+
+    public UsuarioModel(){
+
+    }
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user") //el user cae sobre la varible "user" de Model UsuarioRol
-    private Set<UsarioRolModel> userRoles = new HashSet<>();
+    private Set<UsuarioRolModel> userRoles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -104,11 +109,11 @@ public class UsuarioModel {
         this.profile = profile;
     }
 
-    public Set<UsarioRolModel> getUserRoles() {
+    public Set<UsuarioRolModel> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Set<UsarioRolModel> userRoles) {
+    public void setUserRoles(Set<UsuarioRolModel> userRoles) {
         this.userRoles = userRoles;
     }
 
