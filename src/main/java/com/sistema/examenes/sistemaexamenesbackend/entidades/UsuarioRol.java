@@ -1,4 +1,4 @@
-package com.sistema.examenes.sistemaexamenesbackend.models;
+package com.sistema.examenes.sistemaexamenesbackend.entidades;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,17 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class UsuarioRolModel {
+public class UsuarioRol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userRolId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private UsuarioModel user;
+    private Usuario user;
     @ManyToOne(fetch = FetchType.EAGER)
-    private RoleModel role;
+    private Role role;
 
-    public UsuarioRolModel() {
+    public UsuarioRol() {
 
     }
 
@@ -30,19 +30,19 @@ public class UsuarioRolModel {
         this.userRolId = userRolId;
     }
 
-    public UsuarioModel getUser() {
+    public Usuario getUser() {
         return this.user;
     }
 
-    public void setUser(UsuarioModel user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 
-    public RoleModel getRole() {
+    public Role getRole() {
         return this.role;
     }
 
-    public void setRole(RoleModel role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

@@ -1,5 +1,5 @@
 
-package com.sistema.examenes.sistemaexamenesbackend.models;
+package com.sistema.examenes.sistemaexamenesbackend.entidades;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="usuarios")
-public class UsuarioModel {
+@Table(name = "usuarios")
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,16 +26,16 @@ public class UsuarioModel {
     private String lastName;
     private String email;
     private String phone;
-    private boolean enable=true;
+    private boolean enable = true;
     private String profile;
-    
 
-    public UsuarioModel(){
+    public Usuario() {
 
     }
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user") //el user cae sobre la varible "user" de Model UsuarioRol
-    private Set<UsuarioRolModel> userRoles = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user") // el user cae sobre la varible
+                                                                                      // "user" de Model UsuarioRol
+    private Set<UsuarioRol> userRoles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -109,11 +109,11 @@ public class UsuarioModel {
         this.profile = profile;
     }
 
-    public Set<UsuarioRolModel> getUserRoles() {
+    public Set<UsuarioRol> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Set<UsuarioRolModel> userRoles) {
+    public void setUserRoles(Set<UsuarioRol> userRoles) {
         this.userRoles = userRoles;
     }
 

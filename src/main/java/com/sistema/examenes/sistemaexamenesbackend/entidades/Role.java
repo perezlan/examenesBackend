@@ -1,4 +1,4 @@
-package com.sistema.examenes.sistemaexamenesbackend.models;
+package com.sistema.examenes.sistemaexamenesbackend.entidades;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,18 +12,18 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-public class RoleModel {
+public class Role {
     @Id
     private Long id;
     private String name;
 
-    public RoleModel() {
+    public Role() {
 
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role") // el role cae sobre la varible
                                                                                      // "role" de Model UsuarioRol
-    private Set<UsuarioRolModel> userRoles = new HashSet<>();
+    private Set<UsuarioRol> userRoles = new HashSet<>();
 
     public Long getId() {
         return id;
