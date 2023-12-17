@@ -34,4 +34,39 @@ public class UsuarioServicesImpl implements UsuarioServices {
         return usuarioLocal;
     }
 
+    @Override
+    public Usuario ObtenerUsuario(String userName) {
+        Usuario usuario = usuarioRepository.findByUserName(userName);
+        try {
+
+            if (usuario != null) {
+                System.out.println("Se encontro el usuario: gg " + usuario.getUserName());
+                System.out.println(usuario);
+                return usuario;
+            } else {
+                System.out.println("No se encontro el usuario");
+                return null;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("ERROR AL OBTENER USUARIO " + e);
+        } finally {
+            return usuario;
+        }
+
+    }
+
+    @Override
+    public void eliminarUsuario(Long id) {
+        // TODO Auto-generated method stub
+        try {
+            usuarioRepository.deleteById(id);
+            System.out.println("USUARIO ELIMINADO!!");
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("ERROR AL ELIMINAR EL USUARIO " + id);
+        }
+
+    }
+
 }

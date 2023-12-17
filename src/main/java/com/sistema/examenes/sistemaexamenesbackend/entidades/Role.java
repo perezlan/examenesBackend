@@ -21,8 +21,7 @@ public class Role {
 
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role") // el role cae sobre la varible
-                                                                                     // "role" de Model UsuarioRol
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
     private Set<UsuarioRol> userRoles = new HashSet<>();
 
     public Long getId() {
