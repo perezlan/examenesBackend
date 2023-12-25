@@ -3,6 +3,7 @@ package com.sistema.examenes.sistemaexamenesbackend.services.implement;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sistema.examenes.sistemaexamenesbackend.entidades.Usuario;
@@ -20,18 +21,26 @@ public class UsuarioServicesImpl implements UsuarioServices {
     private RoleRepository roleRepository;
 
     @Override
-    public Usuario guardarUsuario(Usuario usuario, Set<UsuarioRol> usuarioRoles) {
+    public ResponseEntity<String> guardarUsuario(Usuario usuario, Set<UsuarioRol> usuarioRoles) {
         Usuario usuarioLocal = usuarioRepository.findByUserName(usuario.getUserName());
         if (usuarioLocal != null) {
-            System.out.println("Usuario ya existente!!!");
+            // Usuario ya existe
+            return ResponseEntity.badRequest().body("El usuario ya existe");
         } else {
+            // Guardar roles
             for (UsuarioRol usuarioRol : usuarioRoles) {
                 roleRepository.save(usuarioRol.getRole());
             }
+
+            // Asignar roles al usuario
             usuario.getUserRoles().addAll(usuarioRoles);
+
+            // Guardar usuario
             usuarioLocal = usuarioRepository.save(usuario);
+
+            // Usuario guardado exitosamente
+            return ResponseEntity.ok("Usuario guardado exitosamente" + usuarioLocal);
         }
-        return usuarioLocal;
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class UsuarioController {
     private UsuarioServices usuarioServices;
 
     @PostMapping("/")
-    public Usuario guardarUsuario(@RequestBody Usuario usuario) throws Exception {
+    public ResponseEntity<String> guardarUsuario(@RequestBody Usuario usuario) throws Exception {
         Set<UsuarioRol> roles = new HashSet<>();
 
         Role role = new Role();
@@ -36,7 +37,8 @@ public class UsuarioController {
         usuarioRol.setUser(usuario);
         usuarioRol.setRole(role);
 
-        return usuarioServices.guardarUsuario(usuario, roles);
+        ResponseEntity<String> respuesta = usuarioServices.guardarUsuario(usuario, roles);
+        return respuesta;
     }
 
     @GetMapping("/{userName}")
