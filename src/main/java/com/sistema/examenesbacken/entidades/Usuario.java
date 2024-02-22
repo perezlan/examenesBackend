@@ -5,11 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sistema.examenesbacken.auth.Authority;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements UserDetails {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -122,47 +118,6 @@ public class Usuario implements UserDetails {
 
     public void setUserRoles(Set<UsuarioRol> userRoles) {
         this.userRoles = userRoles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Set<Authority> authorities = new HashSet<>();
-        this.userRoles.forEach(userRoles -> {
-            authorities.add(new Authority(userRoles.getRole().getName()));
-
-        });
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
     }
 
 }
