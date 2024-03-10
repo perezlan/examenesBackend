@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,15 @@ import com.sistema.examenesbacken.entidades.Usuario;
 import com.sistema.examenesbacken.entidades.UsuarioRol;
 import com.sistema.examenesbacken.services.UsuarioServices;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/Usuario")
 @CrossOrigin("*")
 public class UsuarioController {
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -30,16 +36,26 @@ public class UsuarioController {
     @PostMapping("/")
     public ResponseEntity<String> guardarUsuario(@RequestBody Usuario usuario) throws Exception {
         Set<UsuarioRol> usuarioRoles = new HashSet<>();
+        Usuario user = Usuario.builder()
+                .name(usuario.getName())
+                .lastName(usuario.getLastName())
+                .password(passwordEncoder.encode(usuario.getPassword()))
+                .email(usuario.getEmail())
+                .username(usuario.getUsername())
+                .phone(usuario.getPhone())
+                .profile(usuario.getProfile())
+                .build();
 
         Role role = new Role();
         role.setId(2L);
         role.setName("NORMAL");
 
         UsuarioRol usuarioRol = new UsuarioRol();
-        usuarioRol.setUser(usuario);
+        usuarioRol.setUser(user);
         usuarioRol.setRole(role);
         usuarioRoles.add(usuarioRol);
-        ResponseEntity<String> respuesta = usuarioServices.guardarUsuario(usuario, usuarioRoles);
+
+        ResponseEntity<String> respuesta = usuarioServices.guardarUsuario(user, usuarioRoles);
         return respuesta;
     }
 

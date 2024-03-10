@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
 
-        Usuario usuario = this.usuarioRepository.findByUserName(username);
+        Usuario usuario = this.usuarioRepository.findByUsername(username);
         if (usuario == null) {
             throw new UsernameNotFoundException("No se encontró el usuario '" + username + "'.");
         }

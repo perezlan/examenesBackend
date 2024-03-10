@@ -8,6 +8,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.sistema.examenesbacken.conf.JwtUtil;
 import com.sistema.examenesbacken.services.implement.UserDetailsServiceImpl;
 
 @RestController
+@CrossOrigin("*")
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -25,12 +27,14 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtUtil jwtTokenUtil;
+    private final JwtUtil jwtTokenUtil = new JwtUtil();
 
     @PostMapping("/generate-token")
     public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+        System.out.println("*************** entro al controller");
+
         try {
+            System.out.println("*************** entro al controller");
             autenticar(jwtRequest.getUserName(), jwtRequest.getPassword());
 
         } catch (Exception e) {
@@ -38,7 +42,8 @@ public class AuthenticationController {
             throw new Exception("Incorrect username or password", e);
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUserName());
-        String token = this.jwtTokenUtil.generateToken(userDetails);
+        System.out.println("**********usuario CONTROLLER****** " + userDetails);
+        String token = this.jwtTokenUtil.getToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 

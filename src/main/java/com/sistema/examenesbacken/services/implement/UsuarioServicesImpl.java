@@ -1,5 +1,6 @@
 package com.sistema.examenesbacken.services.implement;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UsuarioServicesImpl implements UsuarioServices {
 
     @Override
     public ResponseEntity<String> guardarUsuario(Usuario usuario, Set<UsuarioRol> usuarioRoles) {
-        Usuario usuarioLocal = usuarioRepository.findByUserName(usuario.getUserName());
+        Usuario usuarioLocal = usuarioRepository.findByUsername(usuario.getUsername());
         if (usuarioLocal != null) {
             // Usuario ya existe
             return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"Usuario ya existente\"}");
@@ -33,6 +34,10 @@ public class UsuarioServicesImpl implements UsuarioServices {
                 roleRepository.save(usuarioRol.getRole());
             }
 
+            // Inicializar el conjunto de roles del usuario si es nulo
+            if (usuario.getUserRoles() == null) {
+                usuario.setUserRoles(new HashSet<>());
+            }
             // Asignar roles al usuario
             usuario.getUserRoles().addAll(usuarioRoles);
 
@@ -47,11 +52,11 @@ public class UsuarioServicesImpl implements UsuarioServices {
 
     @Override
     public Usuario ObtenerUsuario(String userName) {
-        Usuario usuario = usuarioRepository.findByUserName(userName);
+        Usuario usuario = usuarioRepository.findByUsername(userName);
         try {
 
             if (usuario != null) {
-                System.out.println("Se encontro el usuario: gg " + usuario.getUserName());
+                System.out.println("Se encontro el usuario: gg " + usuario.getUsername());
                 System.out.println(usuario);
                 return usuario;
             } else {

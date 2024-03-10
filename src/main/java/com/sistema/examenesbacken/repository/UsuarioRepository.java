@@ -9,7 +9,7 @@ import com.sistema.examenesbacken.entidades.Usuario;
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    Usuario findByUserName(String userName);
+    Usuario findByUsername(String username);
 
     void deleteById(Long id);
 }
